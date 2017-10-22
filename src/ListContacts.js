@@ -1,4 +1,5 @@
 import React, { Component } from 'react' // eslint-disable-line no-unused-vars
+import { Link } from 'react-router-dom' // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types' // eslint-disable-line no-unused-vars
 import escapeRegExp from 'escape-string-regexp' // eslint-disable-line no-unused-vars
 import sortBy from 'sort-by' // eslint-disable-line no-unused-vars
@@ -46,12 +47,11 @@ class ListContacts extends Component {
             onChange={event => this.updateQuery(event.target.value)}
           />
 
-		  <a
-			href ="#create"
-			onClick={this.props.onNavigate}
+		  <Link
+		  	to="/create"
 			className="add-contact">
 				Add Contact
-			</a>
+			</Link>
         </div>
 
 		{showingContacts.length !== contacts.length && (

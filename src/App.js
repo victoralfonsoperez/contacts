@@ -1,11 +1,11 @@
 import React, { Component } from 'react' // eslint-disable-line no-unused-vars
+import { Route } from 'react-router-dom' // eslint-disable-line no-unused-vars
 import ListContacts from './ListContacts' // eslint-disable-line no-unused-vars
 import CreateContact from './createContact' // eslint-disable-line no-unused-vars
 import * as ContactsAPI from './utils/ContactsAPI' // eslint-disable-line no-unused-vars
 
 class App extends Component {
 	state = {
-		screen: 'list', //list, create
 		contacts: []
 	}
 
@@ -23,21 +23,33 @@ class App extends Component {
 		ContactsAPI.remove(contact)
 	}
 
+	createContact = (contact) => {
+		ContactsAPI.create(contact).then(contact => {
+			this.setState(state => ({
+				contacts: state.contacts.concat([ contact ])
+			}))
+		})
+	}
+
 	render() {
-		return <div>
-			{this.state.screen === 'list' && (
-			<ListContacts
+		return (
+		  <div>
+			<Route exact path='/' render={() => (
+			  <ListContacts
 				onDeleteContact={this.removeContact}
 				contacts={this.state.contacts}
-				onNavigate={() => {
- 					this.setState({ screen: 'create' })
- 				}}
-			/>
-			)}
-			{this.state.screen === 'create' && (
-				<CreateContact />
-			)}
-		</div>
+			  />
+			)}/>
+			<Route path='/create' render={({ history }) => (
+			  <CreateContact
+				onCreateContact={(contact) => {
+				  this.createContact(contact)
+				  history.push('/')
+				}}
+			  />
+			)}/>
+		  </div>
+		)
 	}
 }
 
