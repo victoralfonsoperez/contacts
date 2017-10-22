@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import ListContacts from './ListContacts';
+import React, { Component } from 'react'; // eslint-disable-line no-unused-vars
+import ListContacts from './ListContacts'; // eslint-disable-line no-unused-vars
 
 const contacts = [
   {

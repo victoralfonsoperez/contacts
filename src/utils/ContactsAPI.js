@@ -1,4 +1,5 @@
-const api = process.env.REACT_APP_CONTACTS_API_URL || 'http://localhost:5001';
+/* global process*/
+const api = process.env.REACT_APP_CONTACTS_API_URL || 'http://localhost:5001'; // eslint-disable-line no-unused-vars
 
 let token = localStorage.token;
 
