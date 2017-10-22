@@ -1,30 +1,33 @@
 import React, { Component } from 'react' // eslint-disable-line no-unused-vars
 import ListContacts from './ListContacts' // eslint-disable-line no-unused-vars
-
-const contacts = [
-	{
-		id: 'ryan',
-		name: 'Ryan Florence',
-		email: 'ryan@reacttraining.com',
-		avatarURL: 'http://localhost:5001/ryan.jpg'
-	},
-	{
-		id: 'michael',
-		name: 'Michael Jackson',
-		email: 'michael@reacttraining.com',
-		avatarURL: 'http://localhost:5001/michael.jpg'
-	},
-	{
-		id: 'tyler',
-		name: 'Tyler McGinnis',
-		email: 'tyler@reacttraining.com',
-		avatarURL: 'http://localhost:5001/tyler.jpg'
-	}
-]
+import * as ContactsAPI from './utils/ContactsAPI' // eslint-disable-line no-unused-vars
 
 class App extends Component {
+	state = {
+		contacts: []
+	}
+
+	componentDidMount () {
+		ContactsAPI.getAll().then((contacts) => {
+			this.setState({ contacts })
+		})
+	}
+
+	removeContact = (contact) => {
+		this.setState((state) => ({
+			contacts: state.contacts.filter((c) => c.id !== contact.id)
+		}))
+
+		ContactsAPI.remove(contact)
+	}
+
 	render() {
-		return <ListContacts contacts={contacts} />
+		return <div>
+			<ListContacts
+				onDeleteContact={this.removeContact}
+				contacts={this.state.contacts}
+			/>
+		</div>
 	}
 }
 
