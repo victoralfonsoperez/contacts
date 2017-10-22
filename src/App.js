@@ -1,9 +1,11 @@
 import React, { Component } from 'react' // eslint-disable-line no-unused-vars
 import ListContacts from './ListContacts' // eslint-disable-line no-unused-vars
+import CreateContact from './createContact' // eslint-disable-line no-unused-vars
 import * as ContactsAPI from './utils/ContactsAPI' // eslint-disable-line no-unused-vars
 
 class App extends Component {
 	state = {
+		screen: 'list', //list, create
 		contacts: []
 	}
 
@@ -23,10 +25,15 @@ class App extends Component {
 
 	render() {
 		return <div>
+			{this.state.screen === 'list' && (
 			<ListContacts
 				onDeleteContact={this.removeContact}
 				contacts={this.state.contacts}
 			/>
+			)}
+			{this.state.screen === 'create' && (
+				<CreateContact />
+			)}
 		</div>
 	}
 }
