@@ -1,24 +1,35 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react' // eslint-disable-line no-unused-vars
+import PropTypes from 'prop-types' // eslint-disable-line no-unused-vars
+import escapeRegExp from 'escape-string-regexp' // eslint-disable-line no-unused-vars
+import sortBy from 'sort-by' // eslint-disable-line no-unused-vars
 
 class ListContacts extends Component {
   static propTypes = {
     contacts: PropTypes.array.isRequired,
     onDeleteContact: PropTypes.func.isRequired
-  };
+  }
 
   state = {
     query: ''
-  };
+  }
 
   updateQuery = query => {
-    this.setState({ query: query.trim() });
-  };
+    this.setState({ query: query.trim() })
+  }
 
   render() {
+	  let showingContacts // eslint-disable-line no-unused-vars
+	  if (this.state.query) {
+		const match = new RegExp(escapeRegExp(this.state.query), 'i')
+		showingContacts = this.props.contacts.filter((contact) => match.test(contact.name))
+	  } else {
+		  showingContacts = this.props.contacts
+	  }
+
+	  showingContacts.sort(sortBy('name'))
+
     return (
       <div className="list-contacts">
-        {JSON.stringify(this.state)}
         <div className="list-contacts-top">
           <input
             className="search-contacts"
@@ -29,7 +40,7 @@ class ListContacts extends Component {
           />
         </div>
         <ol className="contact-list">
-          {this.props.contacts.map(contact => (
+          {showingContacts.map(contact => (
             <li key={contact.id} className="contact-list-item">
               <div
                 className="contact-avatar"
@@ -51,8 +62,8 @@ class ListContacts extends Component {
           ))}
         </ol>
       </div>
-    );
+    )
   }
 }
 
-export default ListContacts;
+export default ListContacts
